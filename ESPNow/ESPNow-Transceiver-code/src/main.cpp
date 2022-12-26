@@ -9,8 +9,8 @@
 #include <ESP8266WiFi.h>
 #endif
 
-// REPLACE WITH YOUR RECEIVER MAC Address 78:21:84:7A:02:14
-uint8_t broadcastAddress[] = {0x78, 0x21, 0x84, 0x7A, 0x02, 0x14};
+// REPLACE WITH YOUR RECEIVER MAC Address 78:21:84:7A:02:14, 58:bf:25:33:26:f4
+uint8_t broadcastAddress[] = {0x58, 0xbf, 0x25, 0x33, 0x26, 0xf4};
 
 // Structure example to send data
 // Must match the receiver structure

@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#define OutputPinLatency 4
+
 #ifdef ESP32
 #include <WiFi.h>
 #include <esp_now.h>
@@ -30,6 +32,9 @@ esp_now_peer_info_t peerInfo;
 // callback when data is sent
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status)
 {
+  digitalWrite(OutputPinLatency, HIGH);
+  delay(10);
+  digitalWrite(OutputPinLatency, LOW);
   Serial.print("\r\nLast Packet Send Status:\t");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
@@ -38,6 +43,10 @@ void setup()
 {
   // Init Serial Monitor
   Serial.begin(115200);
+
+  //init latency messure
+  pinMode(OutputPinLatency, OUTPUT);
+  digitalWrite(OutputPinLatency, LOW);
 
   // Set device as a Wi-Fi Station
   WiFi.mode(WIFI_STA);

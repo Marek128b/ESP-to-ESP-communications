@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#define OutputPinLatency 4
+
 #ifdef ESP32
 #include <WiFi.h>
 #include <esp_now.h>
@@ -26,6 +28,9 @@ struct_message myData;
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
 {
   memcpy(&myData, incomingData, sizeof(myData));
+  digitalWrite(OutputPinLatency, HIGH);
+  delay(10);
+  digitalWrite(OutputPinLatency, LOW);
   Serial.print("Bytes received: ");
   Serial.println(len);
   Serial.print("Char: ");
@@ -43,6 +48,10 @@ void setup()
 {
   // Initialize Serial Monitor
   Serial.begin(115200);
+
+  //init latency messure
+  pinMode(OutputPinLatency, OUTPUT);
+  digitalWrite(OutputPinLatency, LOW);
 
   // Set device as a Wi-Fi Station
   WiFi.mode(WIFI_STA);
