@@ -10,13 +10,17 @@ const char *mqtt_username = "htl-IoT";
 const char *mqtt_password = "iot..2015";
 const char *mqtt_server = "iotmqtt.htl-klu.at";
 
-#define DATA_TOPIC "htl/3ahel/marek/data"
+#define DATA_TOPIC_RX "htl/3ahel/marek/data<-"
+#define DATA_TOPIC_TX "htl/3ahel/marek/data->"
 
 WiFiClient espClient;
 PubSubClient client(espClient);
+unsigned long lastMsgMillis = 0;
 char msg[200];
+int count = 0;
 
-StaticJsonDocument<200> doc;
+DynamicJsonDocument doc_tx(200);
+StaticJsonDocument<200> doc_rx;
 // ##########################################################################################################################################
 // METHODES
 void setup_wifi()
@@ -50,13 +54,14 @@ void callback(char *topic, byte *payload, unsigned int length)
   Serial.print("] ");
 
   String inDataString = "";
-  for (int i = 0; i < length; i++){
+  for (int i = 0; i < length; i++)
+  {
     inDataString += (char)payload[i];
   }
   Serial.println(inDataString);
 
   // Deserialize the JSON document
-  DeserializationError error = deserializeJson(doc, inDataString);
+  DeserializationError error = deserializeJson(doc_rx, inDataString);
 
   // Test if parsing succeeds.
   if (error)
@@ -66,10 +71,10 @@ void callback(char *topic, byte *payload, unsigned int length)
     return;
   }
 
-  const char *sensor = doc["sensor"];
-  long time = doc["time"];
-  double latitude = doc["data"][0];
-  double longitude = doc["data"][1];
+  const char *sensor = doc_rx["sensor"];
+  long time = doc_rx["time"];
+  double latitude = doc_rx["data"][0];
+  double longitude = doc_rx["data"][1];
 
   // Print values.
   Serial.println(sensor);
@@ -93,7 +98,7 @@ void reconnect()
     {
       Serial.println("connected");
       // ... and resubscribe
-      client.subscribe(DATA_TOPIC);
+      client.subscribe(DATA_TOPIC_RX);
     }
     else
     {
@@ -110,6 +115,15 @@ void reconnect()
 // SETUP
 void setup()
 {
+  // Add values in the document
+  doc_tx["sensor"] = "gps";
+  doc_tx["time"] = 1351824120;
+
+  // Add an array.
+  JsonArray data = doc_tx.createNestedArray("data");
+  data.add(48.756080);
+  data.add(2.302038);
+
   Serial.begin(115200);
   setup_wifi();
   client.setServer(mqtt_server, 1883);
@@ -124,4 +138,18 @@ void loop()
     reconnect();
   }
   client.loop();
+
+  if (millis() - lastMsgMillis > 2000)
+  {
+    ++count;
+    doc_tx["time"] = count;
+
+    serializeJson(doc_tx, msg);
+
+    Serial.print("Publish message: ");
+    Serial.println(msg);
+    client.publish(DATA_TOPIC_TX, msg);
+
+    lastMsgMillis = millis();
+  }
 }
