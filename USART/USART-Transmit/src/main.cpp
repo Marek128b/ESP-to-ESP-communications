@@ -7,7 +7,7 @@ void setup()
 {
   // Initialize Serial port
   Serial.begin(115200);
-  Serial2.begin(115200);
+  Serial2.begin(5000000);
 
   Serial.println("Transmitter");
 
@@ -45,10 +45,7 @@ void loop()
   doc["time"] = counter;
 
   counter++;
-
-  serializeJson(doc, Serial);
   // The above line prints:
   // {"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
-
   delay(2000);
 }
