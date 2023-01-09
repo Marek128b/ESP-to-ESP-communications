@@ -6,7 +6,7 @@ StaticJsonDocument<200> doc;
 void setup()
 {
   Serial.begin(115200);
-  Serial2.begin(5000000);
+  Serial2.begin(5000000); //5Mb/s => 625kB/s
 
   Serial.println("Receiver");
 }
