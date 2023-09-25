@@ -1,17 +1,9 @@
 #include <Arduino.h>
 
-#define OutputPinLatency 4
-
-#ifdef ESP32
-#include <WiFi.h>
+#include <WiFi.h> 
 #include <esp_now.h>
-#endif
 
-#ifdef ESP8266
-#include <ESP8266WiFi.h>
-#endif
-
-// REPLACE WITH YOUR RECEIVER MAC Address 78:21:84:7A:02:14
+// REPLACE WITH YOUR RECEIVER MAC Address
 uint8_t broadcastAddress[] = {0x78, 0x21, 0x84, 0x7A, 0x02, 0x14};
 
 // Structure example to send data
@@ -32,9 +24,6 @@ esp_now_peer_info_t peerInfo;
 // callback when data is sent
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status)
 {
-  digitalWrite(OutputPinLatency, HIGH);
-  delay(10);
-  digitalWrite(OutputPinLatency, LOW);
   Serial.print("\r\nLast Packet Send Status:\t");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
@@ -43,10 +32,6 @@ void setup()
 {
   // Init Serial Monitor
   Serial.begin(115200);
-
-  //init latency messure
-  pinMode(OutputPinLatency, OUTPUT);
-  digitalWrite(OutputPinLatency, LOW);
 
   // Set device as a Wi-Fi Station
   WiFi.mode(WIFI_STA);
@@ -59,7 +44,7 @@ void setup()
   }
 
   // Once ESPNow is successfully Init, we will register for Send CB to
-  // get the status of Trasnmitted packet
+  // get the status of Transmitted packet
   esp_now_register_send_cb(OnDataSent);
 
   // Register peer
