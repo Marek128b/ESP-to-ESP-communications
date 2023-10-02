@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 
+/* The lines `StaticJsonDocument<200> docRX;` and `StaticJsonDocument<200> docTX;` are declaring two
+instances of the `StaticJsonDocument` class. */
 StaticJsonDocument<200> docRX;
 StaticJsonDocument<200> docTX;
 
