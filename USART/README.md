@@ -5,6 +5,7 @@
   - [Description](#description)
   - [How to connect](#how-to-connect)
   - [JSON Document](#json-document)
+    - [JSON helping links](#json-helping-links)
 
 ## Description
 USART stands for Universal Synchronous Asynchronous Receiver Transmitter. <br>
@@ -31,4 +32,10 @@ JSON helps you organize data in a structured way. You can make groups of these k
 
 for Java users: it is simmilar to an "Object"
 
-https://arduinojson.org
+For e.g: 
+<img src="basic-JSON.jpg">
+
+### JSON helping links
+More information at: 
+- https://arduinojson.org
+- https://randomnerdtutorials.com/decoding-and-encoding-json-with-arduino-or-esp8266/

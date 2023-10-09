@@ -10,7 +10,7 @@ unsigned long last = 0;
 const int interval = 2000;
 
 void setup()
-{
+{ 
   // Initialize Serial port
   Serial.begin(115200);
   Serial2.begin(5000000);
