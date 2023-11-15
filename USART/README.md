@@ -13,7 +13,7 @@ USART stands for Universal Synchronous Asynchronous Receiver Transmitter. <br>
 USART communication involves two essential pins, commonly referred to as TX (transmit) and RX (receive). These pins facilitate bidirectional data transfer, where one device's TX pin connects to the other device's RX pin and vice versa. <br>
 
 ## How to connect
-<img src="oscup_mcu_mcu_RuWxgaTVKY.jpg">
+<img src="Bild_2023-11-15_150209634.png">
 
 <br>
 
