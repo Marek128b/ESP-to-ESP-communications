@@ -32,7 +32,7 @@ JSON helps you organize data in a structured way. You can make groups of these k
 
 for Java users: it is simmilar to an "Object"
 
-For e.g: 
+For e.g: <br>
 <img src="basic-JSON.jpg">
 
 ### JSON helping links
